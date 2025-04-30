@@ -1,0 +1,60 @@
+def is_safe(board, row, col):
+    for i in range(row):
+        if board[i] == col or \
+           board[i] - i == col - row or \
+           board[i] + i == col + row:
+            return False
+    return True
+def solve_n_queens(row, board, solutions):
+    if row == 8:
+        solutions.append(board[:])
+        return
+    for col in range(8):
+        if is_safe(board, row, col):
+            board[row] = col
+            solve_n_queens(row + 1, board, solutions)
+def print_solution(board):
+    for row in board:
+        print(". " * row + "Q " + ". " * (7 - row))
+    print()
+solutions = []
+solve_n_queens(0, [0]*8, solutions)
+print(f"Total solutions: {len(solutions)}\n")
+for i, sol in enumerate(solutions[:3], 1):  
+    print(f"Solution {i}:")
+    print_solution(sol)
+
+
+
+OUTPUT :-
+Total solutions: 92
+
+Solution 1:
+Q . . . . . . . 
+. . . . Q . . . 
+. . . . . . . Q 
+. . . . . Q . . 
+. . Q . . . . . 
+. . . . . . Q . 
+. Q . . . . . . 
+. . . Q . . . . 
+
+Solution 2:
+Q . . . . . . . 
+. . . . . Q . . 
+. . . . . . . Q 
+. . Q . . . . . 
+. . . . . . Q . 
+. . . Q . . . . 
+. Q . . . . . . 
+. . . . Q . . . 
+
+Solution 3:
+Q . . . . . . . 
+. . . . . . Q . 
+. . . Q . . . . 
+. . . . . Q . . 
+. . . . . . . Q 
+. Q . . . . . . 
+. . . . Q . . . 
+. . Q . . . . . 
