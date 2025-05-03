@@ -1,0 +1,74 @@
+from collections import deque
+def is_valid_state(m_left, c_left, m_right, c_right):
+    if any(x < 0 or x > 3 for x in [m_left, c_left, m_right, c_right]):
+        return False
+    if (m_left > 0 and m_left < c_left) or (m_right > 0 and m_right < c_right):
+        return False
+    return True
+def get_successors(state):
+    successors = []
+    m_left, c_left, boat = state
+    m_right = 3 - m_left
+    c_right = 3 - c_left
+    moves = [(1, 0), (0, 1), (1, 1), (2, 0), (0, 2)]  
+    for m, c in moves:
+        if boat == 'left':
+            new_m_left = m_left - m
+            new_c_left = c_left - c
+            new_m_right = m_right + m
+            new_c_right = c_right + c
+            new_boat = 'right'
+        else:
+            new_m_left = m_left + m
+            new_c_left = c_left + c
+            new_m_right = m_right - m
+            new_c_right = c_right - c
+            new_boat = 'left'
+        if is_valid_state(new_m_left, new_c_left, new_m_right, new_c_right):
+            successors.append((new_m_left, new_c_left, new_boat))
+    return successors
+def missionaries_cannibals_bfs():
+    start = (3, 3, 'left')
+    goal = (0, 0, 'right')
+    queue = deque()
+    visited = set()
+    parent = {}
+    queue.append(start)
+    visited.add(start)
+    parent[start] = None
+    while queue:
+        current = queue.popleft()
+        if current == goal:
+            path = []
+            while current:
+                path.append(current)
+                current = parent[current]
+            path.reverse()
+            print("\n Solution Path:")
+            for step in path:
+                print(f"Missionaries: {step[0]}, Cannibals: {step[1]}, Boat: {step[2]}")
+            return
+        for next_state in get_successors(current):
+            if next_state not in visited:
+                visited.add(next_state)
+                parent[next_state] = current
+                queue.append(next_state)
+    print(" no solution found.")
+missionaries_cannibals_bfs()
+
+
+
+OUTPUT :-
+ Solution Path:
+Missionaries: 3, Cannibals: 3, Boat: left
+Missionaries: 2, Cannibals: 2, Boat: right
+Missionaries: 3, Cannibals: 2, Boat: left
+Missionaries: 3, Cannibals: 0, Boat: right
+Missionaries: 3, Cannibals: 1, Boat: left
+Missionaries: 1, Cannibals: 1, Boat: right
+Missionaries: 2, Cannibals: 2, Boat: left
+Missionaries: 0, Cannibals: 2, Boat: right
+Missionaries: 0, Cannibals: 3, Boat: left
+Missionaries: 0, Cannibals: 1, Boat: right
+Missionaries: 1, Cannibals: 1, Boat: left
+Missionaries: 0, Cannibals: 0, Boat: right
