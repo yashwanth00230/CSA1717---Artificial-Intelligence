@@ -1,0 +1,46 @@
+from collections import deque
+def water_jug_bfs(jug1_capacity, jug2_capacity, target):
+    visited = set()
+    queue = deque()
+    queue.append((0, 0))
+    while queue:
+        a, b = queue.popleft()
+        if (a, b) in visited:
+            continue
+        print(f"Visited state: Jug1 = {a}, Jug2 = {b}")
+        visited.add((a, b))
+        if a == target or b == target:
+            print(f"\nTarget reached with Jug1 = {a}, Jug2 = {b}")
+            return True
+        next_states = [
+            (jug1_capacity, b),           
+            (a, jug2_capacity),           
+            (0, b),                       
+            (a, 0),                       
+            (a - min(a, jug2_capacity - b), b + min(a, jug2_capacity - b)),
+            (a + min(b, jug1_capacity - a), b - min(b, jug1_capacity - a)),
+        ]
+        for state in next_states:
+            if state not in visited:
+                queue.append(state)
+    print("No solution found.")
+    return False
+jug1_capacity = 4
+jug2_capacity = 3
+target = 2
+water_jug_bfs(jug1_capacity, jug2_capacity, target)
+
+
+OUTPUT :-
+Visited state: Jug1 = 0, Jug2 = 0
+Visited state: Jug1 = 4, Jug2 = 0
+Visited state: Jug1 = 0, Jug2 = 3
+Visited state: Jug1 = 4, Jug2 = 3
+Visited state: Jug1 = 1, Jug2 = 3
+Visited state: Jug1 = 3, Jug2 = 0
+Visited state: Jug1 = 1, Jug2 = 0
+Visited state: Jug1 = 3, Jug2 = 3
+Visited state: Jug1 = 0, Jug2 = 1
+Visited state: Jug1 = 4, Jug2 = 2
+
+Target reached with Jug1 = 4, Jug2 = 2
