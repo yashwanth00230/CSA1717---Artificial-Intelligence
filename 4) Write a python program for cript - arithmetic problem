@@ -1,0 +1,41 @@
+from itertools import permutations
+def solve_cryptarithmetic(word1, word2, result):
+    words = [word1.upper(), word2.upper(), result.upper()]
+    letters = set("".join(words))
+    if len(letters) > 10:
+        print("Too many unique letters (max 10 allowed).")
+        return
+    letters = list(letters)
+    first_letters = {w[0] for w in words}
+    for perm in permutations(range(10), len(letters)):
+        letter_to_digit = dict(zip(letters, perm))
+        if any(letter_to_digit[ch] == 0 for ch in first_letters):
+            continue
+        def to_number(word):
+            return int("".join(str(letter_to_digit[ch]) for ch in word))
+        w1, w2, res = map(to_number, words)
+        if w1 + w2 == res:
+            print("solution found!")
+            print(f"{word1} = {w1}")
+            print(f"{word2} = {w2}")
+            print(f"{result} = {res}")
+            print("Letter to Digit Mapping:", letter_to_digit)
+            return
+    print(" No solution found.")
+if __name__ == "__main__":
+    word1 = input("Enter first word: ")
+    word2 = input("Enter second word: ")
+    result = input("Enter result word: ")
+    solve_cryptarithmetic(word1, word2, result)
+
+
+
+OUTPUT :-
+Enter first word: send
+Enter second word: more
+Enter result word: money
+solution found!
+send = 9567
+more = 1085
+money = 10652
+Letter to Digit Mapping: {'E': 5, 'S': 9, 'R': 8, 'O': 0, 'D': 7, 'N': 6, 'Y': 2, 'M': 1}
