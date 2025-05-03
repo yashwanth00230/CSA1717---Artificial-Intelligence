@@ -1,0 +1,50 @@
+def vacuum_cleaner():
+    position = input("Enter initial position of vacuum (A/B): ").strip().upper()
+    room_A = input("Enter status of Room A (Clean/Dirty): ").strip().capitalize()
+    room_B = input("Enter status of Room B (Clean/Dirty): ").strip().capitalize()
+    print("\nStarting Vacuum Cleaner Simulation...\n")
+    actions = []
+    if position == 'A':
+        if room_A == "Dirty":
+            actions.append("Suck in Room A")
+            room_A = "Clean"
+        actions.append("Move to Room B")
+        if room_B == "Dirty":
+            actions.append("Suck in Room B")
+            room_B = "Clean"
+    elif position == 'B':
+        if room_B == "Dirty":
+            actions.append("Suck in Room B")
+            room_B = "Clean"
+        actions.append("Move to Room A")
+        if room_A == "Dirty":
+            actions.append("Suck in Room A")
+            room_A = "Clean"
+    else:
+        print(" invalid initial position. Use 'A' or 'B'.")
+        return
+    print("Actions Taken:")
+    for action in actions:
+        print(f"- {action}")
+    print(f"\nFinal Status:\nRoom A: {room_A}\nRoom B: {room_B}")
+    print(" Cleaning complete.")
+vacuum_cleaner()
+
+
+
+OUTPUT :-
+Enter initial position of vacuum (A/B): b
+Enter status of Room A (Clean/Dirty): dirty
+Enter status of Room B (Clean/Dirty): dirty
+
+Starting Vacuum Cleaner Simulation...
+
+Actions Taken:
+- Suck in Room B
+- Move to Room A
+- Suck in Room A
+
+Final Status:
+Room A: Clean
+Room B: Clean
+Cleaning complete.
