@@ -1,0 +1,28 @@
+import itertools
+def tsp_brute_force(dist):
+    n = len(dist)
+    cities = list(range(n))
+    min_cost = float('inf')
+    best_path = []
+    for perm in itertools.permutations(cities[1:]):  
+        path = [0] + list(perm) + [0] 
+        cost = sum(dist[path[i]][path[i+1]] for i in range(n))
+        if cost < min_cost:
+            min_cost = cost
+            best_path = path
+    return min_cost, best_path
+dist_matrix = [
+    [0, 10, 15, 20],
+    [10, 0, 35, 25],
+    [15, 35, 0, 30],
+    [20, 25, 30, 0]
+]
+min_cost, best_path = tsp_brute_force(dist_matrix)
+print("Minimum cost:", min_cost)
+print("Best path:", best_path)
+
+
+
+OUTPUT :-
+Minimum cost: 80
+Best path: [0, 1, 3, 2, 0]
